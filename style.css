@@ -128,14 +128,16 @@ p {
     width: 100vw;
     position: relative;
     top: -70px;
-    left: -60px;
+    /* left: -60px; */
 }
 
 .banner .texto {
     position: absolute;
     top: 0;
-    padding: 25px;
-    backdrop-filter: blur(3px);
+    margin: 165px 0 0 245px;
+    padding: 5px;
+    backdrop-filter: blur(1px);
+    font-weight: bolder;
 }
 
 /* Scroll down button */
@@ -144,8 +146,9 @@ p {
 .scroll-down {
     height: 50px;
     width: 30px;
-    border: 2px solid white;
+    border: 3px solid white;
     position: absolute;
+    /* left: 50%; */
     left: calc(50% + 68px);
     bottom: 50px;
     border-radius: 50px;
@@ -161,7 +164,7 @@ p {
     height: 10px;
     width: 10px;
     transform: translate(-50%, -100%) rotate(45deg);
-    border: 2px solid white;
+    border: 3px solid white;
     border-top: transparent;
     border-left: transparent;
     animation: scroll-down 1s ease-in-out infinite;
@@ -233,7 +236,7 @@ p {
     overflow: hidden;
     position: relative;
     width: 100%;
-    background-image: url(https://images.unsplash.com/photo-1415018255745-0ec3f7aee47b?dpr=1&auto=format&fit=crop&w=1500&h=938&q=80&cs=tinysrgb&crop=);
+    background-image: url(images/section1.jpg);
     background-attachment: fixed;
     background-size: cover;
     -moz-background-size: cover;
@@ -248,7 +251,7 @@ p {
     overflow: hidden;
     position: relative;
     width: 100%;
-    background-image: url(https://images.unsplash.com/photo-1432163230927-a32e4fd5a326?dpr=1&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=);
+    background-image: url(images/section2.jpg);
     background-attachment: fixed;
     background-size: cover;
     -moz-background-size: cover;
@@ -263,13 +266,13 @@ p {
     overflow: hidden;
     position: relative;
     width: 100%;
-    background-image: url(https://images.unsplash.com/photo-1440688807730-73e4e2169fb8?dpr=1&auto=format&fit=crop&w=1500&h=1001&q=80&cs=tinysrgb&crop=);
+    background-image: url(images/section3.jpg);
     background-attachment: fixed;
     background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: bottom center;
 }
 
 /* Extras */
