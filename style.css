@@ -128,6 +128,7 @@ p {
     width: 100vw;
     position: relative;
     top: -70px;
+    left: -60px;
 }
 
 .banner .texto {
@@ -226,7 +227,7 @@ p {
 }
 
 .parallax-one {
-    margin-top: 250px;
+    margin-top: 20%;
     padding-top: 200px;
     padding-bottom: 200px;
     overflow: hidden;
