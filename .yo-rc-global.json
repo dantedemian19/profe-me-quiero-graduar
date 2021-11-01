@@ -1,0 +1,8 @@
+{
+  "generator-jhipster:7.3.1": {
+    "promptValues": {
+      "packageName": "com.profe_me_quiero_graduar.app",
+      "nativeLanguage": "en"
+    }
+  }
+}
