@@ -1,0 +1,24 @@
+entity Anuncios{
+	title String required,
+	photo ImageBlob maxbytes(10485760),
+    text TextBlob required,
+}
+entity Comentarios {
+    text TextBlob required,
+    date Instant required,
+    stars StarCalification,// por si acaso
+    author String,// por si acaso
+}
+enum StarCalification{// por si acaso
+	One (one),
+    Two (two),
+    Three (three),
+    Four (four),
+    Five (five)
+}
+relationship ManyToOne{
+	Comentarios{Anuncio required} to Anuncios
+}
+
+dto all with mapstruct
+paginate all with pagination

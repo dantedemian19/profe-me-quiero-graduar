@@ -1,0 +1,44 @@
+{
+  "name": "Comentarios",
+  "fields": [
+    {
+      "fieldName": "text",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "stars",
+      "fieldType": "StarCalification",
+      "fieldValues": "One (one),Two (two),Three (three),Four (four),Five (five)"
+    },
+    {
+      "fieldName": "author",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "anuncios",
+      "otherEntityRelationshipName": "comentarios",
+      "relationshipValidateRules": "required",
+      "relationshipName": "anuncio"
+    }
+  ],
+  "entityTableName": "comentarios",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20211103232711"
+}
