@@ -1,8 +1,10 @@
 // Override Boostrap variables
-@import '~bootswatch/dist/journal/variables';
+@import '~bootswatch/dist/yeti/variables';
 // Import Bootstrap source files from node_modules
 @import 'node_modules/bootstrap/scss/bootstrap';
-@import '~bootswatch/dist/journal/bootswatch';
+@import '~bootswatch/dist/yeti/bootswatch';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 body {
   margin: 0;
 }
@@ -15,10 +17,14 @@ a {
 * {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
   &:after,
   &::before {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+  }
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -29,9 +35,9 @@ a {
     height: calc(100% - 40px);
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 1rem;
+    // padding: 1rem;
     .card {
-      padding: 1rem;
+      // padding: 1rem;
     }
     .view-routes {
       height: 100%;
@@ -40,6 +46,10 @@ a {
       }
     }
   }
+}
+
+.container-fluid {
+  padding: 0;
 }
 
 .fullscreen {

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header class="header">
+        <a href="../inicio.html" class="logo">Logo</a>
+        <div class="rightside">
+            <div class="btns daynight">
+                <ion-icon name="moon-outline"></ion-icon>
+                <ion-icon name="sunny-outline"></ion-icon>
+            </div>
+            <div class="btns menutoggle">
+                <ion-icon name="menu-outline"></ion-icon>
+                <ion-icon name="close-outline"></ion-icon>
+            </div>
+        </div>
+    </header>
+    <ul class="navigation">
+        <li><a href="../inicio.html">Home</a></li>
+        <li><a href="login/login.html">Inciar sesión</a></li>
+        <li><a href="#">Saber más</a></li>
+        <li><a href="#">Visitar</a></li>
+        <li><a href="#">Contacto</a></li>
+    </ul>
+    <div class="container-form" id="container-form">
+        <div class="form-container-form sign-up-container-form">
+            <form action="#" class="form-form">
+                <h1 class="ttl-form">Crear Cuenta</h1>
+                <input type="text" placeholder="Usuario" />
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="********" />
+                <button class="btn-form">Registarse</button>
+            </form>
+        </div>
+        <div class="form-container-form sign-in-container-form">
+            <form action="#" class="form-form">
+                <h1 class="ttl-form">Iniciar Sesión</h1>
+                <input type="email" placeholder="Email" />
+                <input type="password" placeholder="********" />
+                <button class="btn-form">Iniciar sesión</button>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </form>
+        </div>
+        <div class="overlay-container-form">
+            <div class="overlay-form">
+                <div class="overlay-panel-form overlay-left-form">
+                    <h1>Bienvenid@ de vuelta!</h1>
+                    <p>Si ya tienes una cuenta, haz click en el botón de abajo</p>
+                    <button class="ghost-form btn1-form" id="signIn-form">Iniciar Sesión</button>
+                </div>
+                <div class="overlay-panel-form overlay-right-form">
+                    <h1>Hola, amig@</h1>
+                    <p>Si no tienes una cuenta, ¿Qué esperas a crear una?</p>
+                    <button class="ghost-form btn1-form" id="signUp-form">Crear Cuenta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        const signUpButton = document.getElementById('signUp-form');
+        const signInButton = document.getElementById('signIn-form');
+        const container = document.getElementById('container-form');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active-form");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active-form");
+        });
+
+        let dayNight = document.querySelector('.daynight');
+        let menutoggle = document.querySelector('.menutoggle');
+        let body = document.querySelector('body');
+        let navigation = document.querySelector('.navigation');
+
+        dayNight.onclick = function() {
+            body.classList.toggle('dark')
+            dayNight.classList.toggle('active')
+        }
+        
+        menutoggle.onclick = function() {
+            menutoggle.classList.toggle('active')
+            navigation.classList.toggle('active')
+        }
+    </script>
+</body>
+</html>

@@ -1,10 +1,369 @@
-/* ==========================================================================
-Main page styles
-========================================================================== */
-.hipster {
-  display: inline-block;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: var(--white);
+}
+
+header {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: 497px;
-  background: url('../../../content/images/jhipster_family_member_2.svg') no-repeat center top;
-  background-size: contain;
+  padding: 40px 100px;
+  z-index: 1000;
+}
+
+header .logo {
+  position: relative;
+  display: inline-flex;
+  color: #333;
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.rightside {
+  display: flex;
+}
+
+.btns {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btns .menutoggle ion-icon {
+  font-size: 3em;
+}
+
+.btns ion-icon {
+  font-size: 1.5em;
+  color: #333;
+}
+
+.btns ion-icon:nth-child(2) {
+  display: none;
+}
+
+.btns.active ion-icon:nth-child(2) {
+  display: block;
+}
+
+.btns.active ion-icon:nth-child(1) {
+  display: none;
+}
+
+.main {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.main h2 {
+  position: relative;
+  z-index: 3;
+  font-size: 10vw;
+  color: #fff;
+  text-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+  margin-top: -50px;
+}
+
+.navigation {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  z-index: 4;
+  transition: 0.5s;
+}
+
+.navigation.active {
+  left: 0;
+}
+
+.navigation li {
+  list-style: none;
+}
+
+.navigation li a {
+  display: inline-flex;
+  margin: 5px 0;
+  font-size: 1.35em;
+  text-decoration: none;
+  color: #333;
+  padding: 5px 20px;
+  border-radius: 40px;
+}
+
+.navigation li a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.copyright {
+  position: absolute;
+  left: 100px;
+  bottom: 40px;
+  z-index: 4;
+  font-weight: 500;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.social {
+  position: absolute;
+  right: 100px;
+  bottom: 40px;
+  z-index: 4;
+  display: flex;
+  flex-direction: row;
+}
+
+.social li {
+  list-style: none;
+  margin: 0 5px;
+}
+
+.social li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.75em;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 20px;
+  }
+
+  .copyright {
+    left: 20px;
+    bottom: 30px;
+  }
+
+  .social {
+    right: 20px;
+    bottom: 30px;
+  }
+}
+
+/* ------------- BODY ------------- */
+
+h1 {
+  /* font-family: 'Oswald', sans-serif; */
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  /* font-family: 'Oswald', sans-serif; */
+  font-size: 70px;
+  letter-spacing: 5px;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
+  z-index: 10;
+  opacity: 0.9;
+}
+
+h3 {
+  /* font-family: 'Oswald', sans-serif; */
+  font-size: 14px;
+  line-height: 0;
+  font-weight: 400;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+p {
+  /* font-family: 'Source Sans Pro', sans-serif; */
+  color: #333;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.first-character {
+  font-weight: 400;
+  float: left;
+  font-size: 84px;
+  line-height: 64px;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-left: 3px;
+  /* font-family: 'Source Sans Pro', sans-serif; */
+}
+
+.sc {
+  color: #a01a58;
+}
+
+.ny {
+  color: #a01a58;
+}
+
+.atw {
+  color: #a01a58;
+}
+
+/* Section - Block */
+/**************************/
+.block {
+  background: #fff;
+  padding: 60px;
+  width: 820px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+.block-gray {
+  background: #fff;
+  padding: 60px;
+}
+
+.section-overlay-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0.7;
+}
+
+/* Section - Parallax */
+/**************************/
+.container {
+  width: 70%;
+  padding: 0;
+}
+
+.parallax-one {
+  margin-top: 20%;
+  padding-top: 200px;
+  padding-bottom: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-image: url(../../../content/images/section1.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+.parallax-two {
+  padding-top: 200px;
+  padding-bottom: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-image: url(../../../content/images/section2.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.parallax-three {
+  padding-top: 200px;
+  padding-bottom: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-image: url(../../../content/images/section3.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+}
+
+/* Extras */
+/**************************/
+.line-break {
+  border-bottom: 1px solid var(--black);
+  width: 150px;
+  margin: 0 auto;
+}
+
+/* Media Queries */
+/**************************/
+@media screen and (max-width: 959px) and (min-width: 768px) {
+  .block {
+    padding: 40px;
+    width: 620px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .block {
+    padding: 30px;
+    width: 420px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  .block {
+    padding: 30px;
+  }
+
+  .parallax-one,
+  .parallax-two,
+  .parallax-three {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .block {
+    padding: 30px 15px;
+    width: 290px;
+  }
 }

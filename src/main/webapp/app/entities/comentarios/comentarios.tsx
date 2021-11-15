@@ -13,6 +13,9 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
+import { GMap } from 'primereact/gmap';
+import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+
 export interface IComentariosProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Comentarios = (props: IComentariosProps) => {
@@ -69,6 +72,12 @@ export const Comentarios = (props: IComentariosProps) => {
     sortEntities();
   };
 
+  const MyMapComponent = props => (
+    <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
+      {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
+    </GoogleMap>
+  );
+
   const { comentariosList, match, loading, totalItems } = props;
   return (
     <div>
@@ -84,6 +93,7 @@ export const Comentarios = (props: IComentariosProps) => {
           </Link>
         </div>
       </h2>
+      <MyMapComponent isMarkerShown />
       <div className="table-responsive">
         {comentariosList && comentariosList.length > 0 ? (
           <Table responsive>
@@ -122,7 +132,13 @@ export const Comentarios = (props: IComentariosProps) => {
                   <td>{comentarios.date ? <TextFormat type="date" value={comentarios.date} format={APP_DATE_FORMAT} /> : null}</td>
                   <td>{comentarios.stars}</td>
                   <td>{comentarios.author}</td>
-                  <td>{comentarios.anuncio ? <Link to={`anuncios/${comentarios.anuncio.id}`}>{comentarios.anuncio.id}</Link> : ''}</td>
+                  <td>
+                    {comentarios.anuncio ? (
+                      <Link to={`anuncios/${comentarios.anuncio.id}`}>{comentarios.anuncio.id}</Link>
+                    ) : (
+                      <div style={{ color: '#ccc' }}>Sin anuncio</div>
+                    )}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${comentarios.id}`} color="info" size="sm" data-cy="entityDetailsButton">

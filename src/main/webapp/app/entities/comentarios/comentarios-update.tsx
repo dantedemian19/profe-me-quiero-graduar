@@ -148,7 +148,7 @@ export const ComentariosUpdate = (props: IComentariosUpdateProps) => {
               </AvGroup>
               <AvGroup>
                 <Label for="comentarios-anuncio">Anuncio</Label>
-                <AvInput id="comentarios-anuncio" data-cy="anuncio" type="select" className="form-control" name="anuncioId" required>
+                <AvInput id="comentarios-anuncio" data-cy="anuncio" type="select" className="form-control" name="anuncioId">
                   <option value="" key="0" />
                   {anuncios
                     ? anuncios.map(otherEntity => (
