@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 
 import { getLoggers, changeLogLevel } from '../administration.reducer';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { IRootState } from 'app/shared/reducers';
 
-export const LogsPage = () => {
+export interface ILogsPageProps extends StateProps, DispatchProps {}
+
+export const LogsPage = (props: ILogsPageProps) => {
   const [filter, setFilter] = useState('');
-  const logs = useAppSelector(state => state.administration.logs);
-  const isFetching = useAppSelector(state => state.administration.loading);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getLoggers());
+    props.getLoggers();
   }, []);
 
-  const changeLevel = (loggerName, level) => () => dispatch(changeLogLevel(loggerName, level));
+  const changeLevel = (loggerName, level) => () => props.changeLogLevel(loggerName, level);
 
   const changeFilter = evt => setFilter(evt.target.value);
 
@@ -21,6 +21,7 @@ export const LogsPage = () => {
 
   const filterFn = l => l.name.toUpperCase().includes(filter.toUpperCase());
 
+  const { logs, isFetching } = props;
   const loggers = logs ? Object.entries(logs.loggers).map(e => ({ name: e[0], level: e[1].effectiveLevel })) : [];
 
   return (
@@ -102,4 +103,14 @@ export const LogsPage = () => {
   );
 };
 
-export default LogsPage;
+const mapStateToProps = ({ administration }: IRootState) => ({
+  logs: administration.logs,
+  isFetching: administration.loading,
+});
+
+const mapDispatchToProps = { getLoggers, changeLogLevel };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(LogsPage);

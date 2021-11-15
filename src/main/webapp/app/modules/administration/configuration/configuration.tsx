@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Table, Input, Row, Col, Badge } from 'reactstrap';
 
 import { getConfigurations, getEnv } from '../administration.reducer';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { IRootState } from 'app/shared/reducers';
 
-export const ConfigurationPage = () => {
+export interface IConfigurationPageProps extends StateProps, DispatchProps {}
+
+export const ConfigurationPage = (props: IConfigurationPageProps) => {
   const [filter, setFilter] = useState('');
   const [reversePrefix, setReversePrefix] = useState(false);
   const [reverseProperties, setReverseProperties] = useState(false);
-  const dispatch = useAppDispatch();
-
-  const configuration = useAppSelector(state => state.administration.configuration);
 
   useEffect(() => {
-    dispatch(getConfigurations());
-    dispatch(getEnv());
+    props.getConfigurations();
+    props.getEnv();
   }, []);
 
   const changeFilter = evt => setFilter(evt.target.value);
@@ -32,9 +32,11 @@ export const ConfigurationPage = () => {
       .map((v: any) => v.beans)
       .reduce((acc, e) => ({ ...acc, ...e }));
 
-  const configProps = configuration?.configProps ?? {};
+  const { configuration } = props;
 
-  const env = configuration?.env ?? {};
+  const configProps = configuration && configuration.configProps ? configuration.configProps : {};
+
+  const env = configuration && configuration.env ? configuration.env : {};
 
   return (
     <div>
@@ -105,4 +107,14 @@ export const ConfigurationPage = () => {
   );
 };
 
-export default ConfigurationPage;
+const mapStateToProps = ({ administration }: IRootState) => ({
+  configuration: administration.configuration,
+  isFetching: administration.loading,
+});
+
+const mapDispatchToProps = { getConfigurations, getEnv };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigurationPage);

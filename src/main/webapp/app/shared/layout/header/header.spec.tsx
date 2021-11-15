@@ -9,6 +9,7 @@ import Header from './header';
 
 describe('Header', () => {
   let mountedWrapper;
+
   const devProps = {
     isAuthenticated: true,
     isAdmin: true,

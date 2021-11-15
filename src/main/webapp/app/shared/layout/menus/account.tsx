@@ -1,13 +1,16 @@
 import React from 'react';
 import MenuItem from 'app/shared/layout/menus/menu-item';
-import { DropdownItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getLoginUrl } from 'app/shared/util/url-utils';
 import { NavDropdown } from './menu-components';
 
 const accountMenuItemsAuthenticated = (
   <>
+    <MenuItem icon="wrench" to="/account/settings" data-cy="settings">
+      Settings
+    </MenuItem>
+    <MenuItem icon="lock" to="/account/password" data-cy="passwordItem">
+      Password
+    </MenuItem>
     <MenuItem icon="sign-out-alt" to="/logout" data-cy="logout">
       Sign out
     </MenuItem>
@@ -16,9 +19,12 @@ const accountMenuItemsAuthenticated = (
 
 const accountMenuItems = (
   <>
-    <DropdownItem id="login-item" tag="a" href={getLoginUrl()} data-cy="login">
-      <FontAwesomeIcon icon="sign-in-alt" /> Sign in
-    </DropdownItem>
+    <MenuItem id="login-item" icon="sign-in-alt" to="/login" data-cy="login">
+      Sign in
+    </MenuItem>
+    <MenuItem icon="user-plus" to="/account/register" data-cy="register">
+      Register
+    </MenuItem>
   </>
 );
 

@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { serializeAxiosError } from './reducer.utils';
+import { SUCCESS } from 'app/shared/reducers/action-type.util';
+
+export const ACTION_TYPES = {
+  GET_PROFILE: 'applicationProfile/GET_PROFILE',
+};
 
 const initialState = {
   ribbonEnv: '',
@@ -11,23 +14,23 @@ const initialState = {
 
 export type ApplicationProfileState = Readonly<typeof initialState>;
 
-export const getProfile = createAsyncThunk('applicationProfile/get_profile', async () => axios.get<any>('management/info'), {
-  serializeError: serializeAxiosError,
-});
-
-export const ApplicationProfileSlice = createSlice({
-  name: 'applicationProfile',
-  initialState: initialState as ApplicationProfileState,
-  reducers: {},
-  extraReducers(builder) {
-    builder.addCase(getProfile.fulfilled, (state, action) => {
+export default (state: ApplicationProfileState = initialState, action): ApplicationProfileState => {
+  switch (action.type) {
+    case SUCCESS(ACTION_TYPES.GET_PROFILE): {
       const { data } = action.payload;
-      state.ribbonEnv = data['display-ribbon-on-profiles'];
-      state.inProduction = data.activeProfiles.includes('prod');
-      state.isOpenAPIEnabled = data.activeProfiles.includes('api-docs');
-    });
-  },
-});
+      return {
+        ...state,
+        ribbonEnv: data['display-ribbon-on-profiles'],
+        inProduction: data.activeProfiles.includes('prod'),
+        isOpenAPIEnabled: data.activeProfiles.includes('api-docs'),
+      };
+    }
+    default:
+      return state;
+  }
+};
 
-// Reducer
-export default ApplicationProfileSlice.reducer;
+export const getProfile = () => ({
+  type: ACTION_TYPES.GET_PROFILE,
+  payload: axios.get('management/info'),
+});

@@ -3,20 +3,13 @@ import './home.scss';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
 
-import { getLoginUrl, REDIRECT_URL } from 'app/shared/util/url-utils';
-import { useAppSelector } from 'app/config/store';
+export type IHomeProp = StateProps;
 
-export const Home = () => {
-  const account = useAppSelector(state => state.authentication.account);
-  useEffect(() => {
-    const redirectURL = localStorage.getItem(REDIRECT_URL);
-    if (redirectURL) {
-      localStorage.removeItem(REDIRECT_URL);
-      location.href = `${location.origin}${redirectURL}`;
-    }
-  });
+export const Home = (props: IHomeProp) => {
+  const { account } = props;
 
   return (
     <Row>
@@ -35,16 +28,24 @@ export const Home = () => {
             <Alert color="warning">
               If you want to
               <span>&nbsp;</span>
-              <a href={getLoginUrl()} className="alert-link">
+              <Link to="/login" className="alert-link">
+                {' '}
                 sign in
-              </a>
+              </Link>
               , you can try the default accounts:
               <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
               <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
             </Alert>
+
+            <Alert color="warning">
+              You do not have an account yet?&nbsp;
+              <Link to="/account/register" className="alert-link">
+                Register a new account
+              </Link>
+            </Alert>
           </div>
         )}
-        <p>If you have any question on JHipster:</p>
+        <p>If you have any question on JHipster or NHipster:</p>
 
         <ul>
           <li>
@@ -53,37 +54,47 @@ export const Home = () => {
             </a>
           </li>
           <li>
-            <a href="https://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
+            <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
               JHipster on Stack Overflow
             </a>
           </li>
           <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-              JHipster bug tracker
+            <a href="https://github.com/jhipster/generator-jhipster-nodejs/issues?state=open" target="_blank" rel="noopener noreferrer">
+              NHipster bug tracker
             </a>
           </li>
           <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              JHipster public chat room
+            <a href="https://gitter.im/jhipster/generator-jhipster-nodejs" target="_blank" rel="noopener noreferrer">
+              NHipster public chat room
             </a>
           </li>
           <li>
-            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-              follow @jhipster on Twitter
+            <a href="https://twitter.com/java_hipster" target="_blank" rel="noopener noreferrer">
+              follow @java_hipster on Twitter
             </a>
           </li>
         </ul>
 
         <p>
-          If you like JHipster, do not forget to give us a star on{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            GitHub
+          If you like NHipster, do not forget to give us a star on{' '}
+          <a href="https://github.com/jhipster/generator-jhipster-nodejs" target="_blank" rel="noopener noreferrer">
+            Github
           </a>
           !
         </p>
+      </Col>
+      <Col md="3" className="pad">
+        <span className="hipster rounded" />
       </Col>
     </Row>
   );
 };
 
-export default Home;
+const mapStateToProps = storeState => ({
+  account: storeState.authentication.account,
+  isAuthenticated: storeState.authentication.isAuthenticated,
+});
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+export default connect(mapStateToProps)(Home);

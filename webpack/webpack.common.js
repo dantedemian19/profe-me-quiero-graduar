@@ -6,10 +6,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const utils = require('./utils.js');
-const environment = require('./environment');
 
 const getTsLoaderRule = env => {
   const rules = [
+    {
+      loader: 'cache-loader',
+      options: {
+        cacheDirectory: path.resolve('target/cache-loader'),
+      },
+    },
     {
       loader: 'thread-loader',
       options: {
@@ -27,29 +32,19 @@ const getTsLoaderRule = env => {
       },
     },
   ];
+  if (env === 'development') {
+    rules.unshift({
+      loader: 'react-hot-loader/webpack',
+    });
+  }
   return rules;
 };
 
-module.exports = async options => {
-  const development = options.env === 'development';
-  return merge(
+module.exports = options =>
+  merge(
+    // jhipster-needle-add-webpack-config - JHipster will add custom config
     {
-      cache: {
-        // 1. Set cache type to filesystem
-        type: 'filesystem',
-        cacheDirectory: path.resolve(__dirname, '../target/webpack'),
-        buildDependencies: {
-          // 2. Add your config as buildDependency to get cache invalidation on config change
-          config: [
-            __filename,
-            path.resolve(__dirname, `webpack.${development ? 'dev' : 'prod'}.js`),
-            path.resolve(__dirname, 'environment.js'),
-            path.resolve(__dirname, 'utils.js'),
-            path.resolve(__dirname, '../postcss.config.js'),
-            path.resolve(__dirname, '../tsconfig.json'),
-          ],
-        },
-      },
+      cache: options.env !== 'production',
       resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
         modules: ['node_modules'],
@@ -66,16 +61,20 @@ module.exports = async options => {
             include: [utils.root('./src/main/webapp/app')],
             exclude: [utils.root('node_modules')],
           },
-          /*
-       ,
-       Disabled due to https://github.com/jhipster/generator-jhipster/issues/16116
-       Can be enabled with @reduxjs/toolkit@>1.6.1 
-      {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        loader: 'source-map-loader'
-      }
-      */
+          {
+            test: /\.(jpe?g|png|gif|svg|woff2?|ttf|eot)$/i,
+            loader: 'file-loader',
+            options: {
+              digest: 'hex',
+              hash: 'sha512',
+              name: 'content/[hash].[ext]',
+            },
+          },
+          {
+            enforce: 'pre',
+            test: /\.jsx?$/,
+            loader: 'source-map-loader',
+          },
         ],
       },
       stats: {
@@ -93,14 +92,18 @@ module.exports = async options => {
         },
       },
       plugins: [
-        new webpack.EnvironmentPlugin({
-          // react-jhipster requires LOG_LEVEL config.
-          LOG_LEVEL: development ? 'info' : 'error',
-        }),
         new webpack.DefinePlugin({
-          DEVELOPMENT: JSON.stringify(development),
-          VERSION: JSON.stringify(environment.VERSION),
-          SERVER_API_URL: JSON.stringify(environment.SERVER_API_URL),
+          'process.env': {
+            NODE_ENV: `'${options.env}'`,
+            // APP_VERSION is passed as an environment variable from the Gradle / Maven build tasks.
+            VERSION: `'${process.env.hasOwnProperty('APP_VERSION') ? process.env.APP_VERSION : 'DEV'}'`,
+            DEBUG_INFO_ENABLED: options.env === 'development',
+            // The root URL for API calls, ending with a '/' - for example: `"https://www.jhipster.tech:8081/myservice/"`.
+            // If this URL is left empty (""), then it will be relative to the current context.
+            // If you use an API server, in `prod` mode, you will need to enable CORS
+            // (see the `jhipster.cors` common JHipster property in the `application-*.yml` configurations)
+            SERVER_API_URL: `''`,
+          },
         }),
         new ESLintPlugin({
           extensions: ['js', 'ts', 'jsx', 'tsx'],
@@ -131,6 +134,4 @@ module.exports = async options => {
         }),
       ],
     }
-    // jhipster-needle-add-webpack-config - JHipster will add custom config
   );
-};

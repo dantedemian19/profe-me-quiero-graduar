@@ -2,9 +2,6 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
 
 import { AUTHORITIES } from 'app/config/constants';
 import { PrivateRouteComponent, hasAnyAuthority } from './private-route';
@@ -12,41 +9,22 @@ import { PrivateRouteComponent, hasAnyAuthority } from './private-route';
 const TestComp = () => <div>Test</div>;
 
 describe('private-route component', () => {
-  const mockStore = configureStore([thunk]);
-  const wrapper = (Elem: JSX.Element, authentication) => {
-    const store = mockStore({ authentication });
-    return render(<Provider store={store}>{Elem}</Provider>);
-  };
-
   // All tests will go here
   it('Should throw error when no component is provided', () => {
     const originalError = console.error;
     console.error = jest.fn();
-    expect(() =>
-      wrapper(<PrivateRouteComponent component={null} path="/" />, {
-        isAuthenticated: true,
-        sessionHasBeenFetched: true,
-        account: {
-          authorities: [],
-        },
-      })
-    ).toThrow(Error);
+    expect(() => render(<PrivateRouteComponent component={null} isAuthenticated sessionHasBeenFetched isAuthorized path="/" />)).toThrow(
+      Error
+    );
     console.error = originalError;
   });
 
   it('Should render an error message when the user has no authorities', () => {
     const history = createMemoryHistory();
-    const { container } = wrapper(
+    const { container } = render(
       <Router history={history}>
-        <PrivateRouteComponent component={TestComp} path="/" />
-      </Router>,
-      {
-        isAuthenticated: true,
-        sessionHasBeenFetched: true,
-        account: {
-          authorities: [],
-        },
-      }
+        <PrivateRouteComponent component={TestComp} isAuthenticated sessionHasBeenFetched isAuthorized={false} path="/" />
+      </Router>
     );
     expect(container.innerHTML).toEqual(
       '<div class="insufficient-authority"><div class="alert alert-danger">You are not authorized to access this page.</div></div>'
@@ -55,34 +33,20 @@ describe('private-route component', () => {
 
   it('Should render a route for the component provided when authenticated', () => {
     const history = createMemoryHistory();
-    const { container } = wrapper(
+    const { container } = render(
       <Router history={history}>
-        <PrivateRouteComponent component={TestComp} path="/" />
-      </Router>,
-      {
-        isAuthenticated: true,
-        sessionHasBeenFetched: true,
-        account: {
-          authorities: ['ADMIN'],
-        },
-      }
+        <PrivateRouteComponent component={TestComp} isAuthenticated sessionHasBeenFetched isAuthorized path="/" />
+      </Router>
     );
     expect(container.innerHTML).toEqual('<div>Test</div>');
   });
 
   it('Should render a redirect to login when not authenticated', () => {
     const history = createMemoryHistory();
-    const { container } = wrapper(
+    const { container } = render(
       <Router history={history}>
-        <PrivateRouteComponent exact component={TestComp} path="/" />
-      </Router>,
-      {
-        isAuthenticated: false,
-        sessionHasBeenFetched: true,
-        account: {
-          authorities: ['ADMIN'],
-        },
-      }
+        <PrivateRouteComponent exact component={TestComp} isAuthenticated={false} sessionHasBeenFetched isAuthorized path="/" />
+      </Router>
     );
     expect(container.innerHTML).not.toEqual('<div>Test</div>');
   });

@@ -1,7 +1,6 @@
 const tsconfig = require('./tsconfig.json');
 
 module.exports = {
-  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
@@ -24,8 +23,6 @@ module.exports = {
       compiler: 'typescript',
       diagnostics: false,
     },
-    ...require('./webpack/environment'),
-    DEVELOPMENT: false,
   },
 };
 

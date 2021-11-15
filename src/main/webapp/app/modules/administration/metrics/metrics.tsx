@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Button, Col, Row } from 'reactstrap';
 import {
   CacheMetrics,
@@ -9,30 +10,30 @@ import {
   JvmThreads,
   EndpointsRequestsMetrics,
   SystemMetrics,
+  Translate,
 } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TIMESTAMP_FORMAT, APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT, APP_WHOLE_NUMBER_FORMAT } from 'app/config/constants';
-import { getSystemMetrics, getSystemThreadDump } from '../administration.reducer';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { systemMetrics, systemThreadDump } from '../administration.reducer';
+import { IRootState } from 'app/shared/reducers';
 
-export const MetricsPage = () => {
-  const dispatch = useAppDispatch();
-  const metrics = useAppSelector(state => state.administration.metrics);
-  const isFetching = useAppSelector(state => state.administration.loading);
-  const threadDump = useAppSelector(state => state.administration.threadDump);
+export interface IMetricsPageProps extends StateProps, DispatchProps {}
 
+export const MetricsPage = (props: IMetricsPageProps) => {
   useEffect(() => {
-    dispatch(getSystemMetrics());
-    dispatch(getSystemThreadDump());
+    props.systemMetrics();
+    props.systemThreadDump();
   }, []);
 
   const getMetrics = () => {
-    if (!isFetching) {
-      dispatch(getSystemMetrics());
-      dispatch(getSystemThreadDump());
+    if (!props.isFetching) {
+      props.systemMetrics();
+      props.systemThreadDump();
     }
   };
+
+  const { metrics, threadDump, isFetching } = props;
 
   return (
     <div>
@@ -113,4 +114,15 @@ export const MetricsPage = () => {
   );
 };
 
-export default MetricsPage;
+const mapStateToProps = (storeState: IRootState) => ({
+  metrics: storeState.administration.metrics,
+  isFetching: storeState.administration.loading,
+  threadDump: storeState.administration.threadDump,
+});
+
+const mapDispatchToProps = { systemMetrics, systemThreadDump };
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(MetricsPage);
