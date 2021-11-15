@@ -1,4 +1,4 @@
-entity Anuncios{
+entity Ciudad{
 	title String required,
 	photo ImageBlob maxbytes(10485760),
     text TextBlob required,
@@ -10,11 +10,11 @@ entity Comentarios {
     author String,// por si acaso
 }
 enum StarCalification{// por si acaso
-	One (one),
-    Two (two),
-    Three (three),
-    Four (four),
-    Five (five)
+	One,
+    Two,
+    Three,
+    Four,
+    Five
 }
 relationship ManyToOne{
 	Comentarios{Anuncio required} to Anuncios
